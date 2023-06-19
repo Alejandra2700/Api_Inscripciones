@@ -113,7 +113,7 @@ class inscripcion
             " INNER JOIN " . asignatura::NOMBRE_TABLA . " ON " .
             self::NOMBRE_TABLA . "." . self::ID_ASIGNATURA . " = " .asignatura::NOMBRE_TABLA . "." . asignatura::ID_ASIGNATURA . " )";
 
-        echo ($comando);
+
         //$sentencia = \ConexionBD\ConexionBD::obtenerInstancia()->obtenerBD()->prepare($comando);
         $sentencia = ConexionBD::obtenerInstancia()->obtenerBD()->prepare($comando);
 
