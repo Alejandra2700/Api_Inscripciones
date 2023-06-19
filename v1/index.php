@@ -50,7 +50,7 @@ if(isset($_GET['PATH_INFO'])){
 
 // Obtener recurso
 $recurso = array_shift($peticion);
-$recursos_existentes = array('alumnos', 'asignaturas', 'inscripciones');
+$recursos_existentes = array('alumnos', 'asignatura', 'inscripcion');
 
 
 // Comprobar si existe el recurso

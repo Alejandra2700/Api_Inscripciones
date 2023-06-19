@@ -30,12 +30,12 @@ class inscripcion
 
         if (empty($peticion[0])) {
             return self::obtenerInscripciones();
-        } else if ($peticion[0] == 'asignaturaAlumno') {
+        } else if ($peticion[0] == 'asignaturaPorAlumno') {
             //Obtener las materias a las que un alumno esta inscrito
                 return self::getAsignaturasPorAlumn($peticion[1]);
             }else if ($peticion[0] == 'alumnoPorAsig') {
                 //Obtiene los alumnos inscritos en una materia
-                return self::getAlumDeAsig($peticion[1]);
+                return self::getAlumPorAsig($peticion[1]);
             } else {
             throw new ExcepcionApi(self::ESTADO_URL_INCORRECTA, "Url mal formada", 400);
         }
@@ -100,6 +100,78 @@ class inscripcion
             echo("Ya esta inscrito a la materia");
         }
     }
+
+    private static function obtenerInscripciones()
+    {
+
+        $comando = "SELECT " . alumnos::NOMBRE_TABLA . ".". alumnos::NOMBRE_ALUMNO . ",".
+            asignatura::NOMBRE_TABLA . "." . asignatura::NOMBRE_ASIGNATURA . ",".
+            self::NOMBRE_TABLA . "." . self::FECHA .
+            " FROM ((" . self::NOMBRE_TABLA .
+            " INNER JOIN " . alumnos::NOMBRE_TABLA . " ON " .
+            self::NOMBRE_TABLA . "." . self::ID_ALUMNO . " = " . alumnos::NOMBRE_TABLA . "." . alumnos::ID_ALUMNO . ")" .
+            " INNER JOIN " . asignatura::NOMBRE_TABLA . " ON " .
+            self::NOMBRE_TABLA . "." . self::ID_ASIGNATURA . " = " .asignatura::NOMBRE_TABLA . "." . asignatura::ID_ASIGNATURA . " )";
+
+        echo ($comando);
+        //$sentencia = \ConexionBD\ConexionBD::obtenerInstancia()->obtenerBD()->prepare($comando);
+        $sentencia = ConexionBD::obtenerInstancia()->obtenerBD()->prepare($comando);
+
+
+        if ($sentencia->execute())
+            return $sentencia->fetchAll();
+        else
+            return null;
+    }
+
+    private static function getAsignaturasPorAlumn($idAlumno)
+    {
+
+        $comando = "SELECT " . alumnos::NOMBRE_TABLA . ".". alumnos::NOMBRE_ALUMNO . ",".
+            asignatura::NOMBRE_TABLA . "." . asignatura::NOMBRE_ASIGNATURA . ",".
+            self::NOMBRE_TABLA . "." . self::FECHA .
+            " FROM ((" . self::NOMBRE_TABLA .
+            " INNER JOIN " . alumnos::NOMBRE_TABLA . " ON " .
+            self::NOMBRE_TABLA . "." . self::ID_ALUMNO . " = " . alumnos::NOMBRE_TABLA . "." . alumnos::ID_ALUMNO . ")" .
+            " INNER JOIN " . asignatura::NOMBRE_TABLA . " ON " .
+            self::NOMBRE_TABLA . "." . self::ID_ASIGNATURA . " = " .asignatura::NOMBRE_TABLA . "." . asignatura::ID_ASIGNATURA . " )" .
+            "WHERE " . alumnos::NOMBRE_TABLA . "." . alumnos::ID_ALUMNO . "=?" ;
+
+        $sentencia = ConexionBD::obtenerInstancia()->obtenerBD()->prepare($comando);
+
+        $sentencia->bindParam(1, $idAlumno);
+
+        if ($sentencia->execute())
+            return $sentencia->fetchAll();
+        else
+            return null;
+    }
+
+    private static function getAlumPorAsig($idAsignatura)
+    {
+
+        $comando = "SELECT " . alumnos::NOMBRE_TABLA . ".". alumnos::NOMBRE_ALUMNO . ",".
+            asignatura::NOMBRE_TABLA . "." . asignatura::NOMBRE_ASIGNATURA . ",".
+            self::NOMBRE_TABLA . "." . self::FECHA .
+            " FROM ((" . self::NOMBRE_TABLA .
+            " INNER JOIN " . alumnos::NOMBRE_TABLA . " ON " .
+            self::NOMBRE_TABLA . "." . self::ID_ALUMNO . " = " . alumnos::NOMBRE_TABLA . "." . alumnos::ID_ALUMNO . ")" .
+            " INNER JOIN " . asignatura::NOMBRE_TABLA . " ON " .
+            self::NOMBRE_TABLA . "." . self::ID_ASIGNATURA . " = " .asignatura::NOMBRE_TABLA . "." . asignatura::ID_ASIGNATURA . " )" .
+            "WHERE " . asignatura::NOMBRE_TABLA . "." . asignatura::ID_ASIGNATURA . "=?" ;
+
+
+        $sentencia = ConexionBD::obtenerInstancia()->obtenerBD()->prepare($comando);
+
+        $sentencia->bindParam(1, $idAsignatura);
+
+        if ($sentencia->execute())
+            return $sentencia->fetchAll();
+        else
+            return null;
+    }
+
+
 
 
        /*
