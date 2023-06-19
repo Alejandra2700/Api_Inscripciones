@@ -42,7 +42,7 @@ set_exception_handler(function ($exception) use ($vista) {
 $peticion= '';
 //Extraer segmento de la red
 if(isset($_GET['PATH_INFO'])){
-    print $_GET['PATH_INFO'];
+    //print $_GET['PATH_INFO'];
     $peticion = explode('/', $_GET['PATH_INFO']);
     //print ("<br>");
     //var_dump($peticion);
@@ -53,11 +53,6 @@ $recurso = array_shift($peticion);
 $recursos_existentes = array('alumnos', 'asignatura', 'inscripcion');
 
 
-// Comprobar si existe el recurso
-if (!in_array($recurso, $recursos_existentes)) {
-    // Respuesta error: Deberia mandar un error como en usuario: threw exceptionAPI
-    echo 'Ruta inexistente' . $recurso;
-}
 $metodo = strtolower($_SERVER['REQUEST_METHOD']);
 
 //echo "Metodo de la petición " . $metodo;

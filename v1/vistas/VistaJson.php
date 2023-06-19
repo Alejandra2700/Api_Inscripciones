@@ -7,10 +7,11 @@ require_once "VistaApi.php";
 
 class VistaJson extends VistaApi
 {
+    /*
     public function __construct($estado = 400)
     {
         $this->estado = $estado;
-    }
+    }*/
 
     /**
      * Imprime el cuerpo de la respuesta y setea el código de respuesta

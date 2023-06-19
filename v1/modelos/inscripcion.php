@@ -51,8 +51,8 @@ class inscripcion
         $inscripcion = json_decode($body);
 
         $idInscripcion = inscripcion::crear($idAlumno, $idAsignatura, $inscripcion);
-
         http_response_code(201);
+        //header("HTTP/1.1 200 OK");
         return [
             "estado" => self::ESTADO_CREACION_EXITOSA,
             "mensaje" => "INSCRIPCION REALIZADA",

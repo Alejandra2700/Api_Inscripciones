@@ -38,8 +38,6 @@ class alumnos
     {
         if ($peticion[0] == 'registro') {
             return self::registrar();
-        } else if ($peticion[0] == 'login') {
-            return self::loguear();
         } else {
             throw new ExcepcionApi(self::ESTADO_URL_INCORRECTA, "Url mal formada", 400);
         }
@@ -131,7 +129,7 @@ class alumnos
         switch ($resultado) {
             case self::ESTADO_CREACION_EXITOSA:
                 echo '<br>CREACION EXITOSA';
-                http_response_code(200);
+                http_response_code(201);
                 return
                     [
                         "estado" => self::ESTADO_CREACION_EXITOSA,
